@@ -1,113 +1,82 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Crud Repartidor</title>
-        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-        <link rel="icon" href="css/img/Rapey_logo.png" type="images/png">
-        <!-- Librería Google Fonts: Tipografía del sitio web -->
-        <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+{% extends 'layout-clientes.html' %}
 
-        <!-- Librerías Bootstrap: Estilos externos del sitio web -->
-        <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.min.js"></script>       
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+{% block body %}
 
-        <!-- Estilos del sitio web -->
-        <link rel="stylesheet" href="css/registro-repartidor.css" />
+<div class="row">
 
-        <!-- Funciones Javascript -->
-        <script type="text/javascript" src="js/registro-repartidor.js"></script>
-
+        <!--Formulario-->
+        <div class="col-md-5">
+            <!--Formulario de entrada de datos-->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
         
-
-    </head>
-    <body>
-
-        <!-- Navigation -->
-        <nav class="nav-main">
-
-            <!-- Logo de la pagina-->
-            <img src="css/img/Rapey_logo.png" alt="Rapey Logo" class="nav-brand">
-
-            <!-- Etiquetas de la pagina -->
-            <ul class="nav-menu"> 
-                <li>
-                    <a href="index.html">Home</a>
-                </li>
-
-                <li>
-                    <a href="seleccion-registro.html">Registrate</a>
-                </li>
-
-                <li>
-
-                    <a href="restaurant.html">Restaurantes</a>
-
-                </li>
-
-                <li>
-                    <a href="sesion-cliente.html">Clientes</a>
-                </li>
-
-                <li>
-                    <a href="sesion-repartidor.html">Repartidores</a>
-                </li>
-                
-
-            </ul>
-
-            <hr class="hr">
-            
-            <!-- Icono de busqueda -->
-            <ul class="nav-menu-right">
-                <li>
-                    <a href="#">
-                        <i class="fas fa-search"></i>
-                    </a>
-                </li>
-            </ul>
-        </nav> <!-- END NAVIGATION -->
-
-
-        <!--Formulario de entrada de datos-->
-        <div class="container">
-            <form id="frmPerson" class="form-horizontal">
-                <div class="form-group">
-                    <label for="txtID" class="col-sm-2 control-label">Rut</label>
-                    <div class="col-sm-4">
-                        <input type="text" id="txtID" class="form-control" placeholder="Rut">
-                    </div>
-                </div>                    
-                <div class="form-group">
-                    <label for="txtName" class="col-lg-2 control-label">Nombre</label>
-                    <div class="col-sm-4">
-                        <input type="text" id="txtName" class="form-control" placeholder="Nombre" onkeypress="return validarLetra(event)">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="txtFono" class="col-lg-2 control-label">Telefono</label>
-                    <div class="col-sm-4">
-                        <input type="text" id="txtFono" class="form-control" placeholder="Telefono">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="txtRegion" class="col-lg-2 control-label">Region</label>
-                    <div class="col-sm-4">
-                        <input type="text" id="txtRegion" class="form-control" placeholder="Region" onkeypress="return validarLetra(event)">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-offset-2 col-sm-4">
-                        <input type="submit" value="Insertar" id="btnSave" class="btn btn-success"/>
-                    </div>
-                </div>
-            </form>
-        </div>      
-
-        <!--Tabla con la lista de datos-->
-        <div class="container">
-            <table id="tblList" class="table table-bordered"></table>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <p>{{message}}</p>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
         </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
 
-    </body>
-</html>
+        <div class="card card-body">
+            <form action="/agregar_repartidor" method="POST" id="frmPerson" class="form-horizontal">
+
+                <div class="form-group">
+                    <input type="text" name="Rut" id="txtID" class="form-control" placeholder="Rut sin puntos ni guion">
+                </div>
+                              
+                <div class="form-group">
+                    <input type="text" name="Nombre" id="txtName" class="form-control" placeholder="Nombre">
+                </div>
+
+                <div class="form-group">
+                    <input type="text" name="Region" id="txtRegion" class="form-control" placeholder="Region">
+                </div>
+
+                <div class="form-group">
+                    <input type="text" name="Telefono" id="txtTelefono" class="form-control" placeholder="Telefono">
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
+                </div>
+            </form>  
+        </div>
+    </div>
+
+    
+<!--Tabla con la lista de datos-->
+    <div class="col-md-7">
+        <table class="table table-striped table-bordered bg-white table-sm">
+            <thead>
+                <tr>
+                    <td>Nombre</td>
+                    <td>Rut</td>
+                    <td>Region</td>
+                    <td>Telefono</td>
+                    <td>Operaciones</td>
+                </tr>
+            </thead>
+    
+            <tbody>
+                
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                <td>
+                    
+                </td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{% endblock %}
